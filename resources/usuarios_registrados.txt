@@ -1,0 +1,18 @@
+Nombre: Genesis
+Apellidos: Vaca
+Dirección: La que sea
+Teléfono: 1256147536
+Notas: (Sin notas)
+--------------------------
+Nombre: Pablo
+Apellidos: Igea
+Dirección: La que sea
+Teléfono: 123654789
+Notas: (Sin notas)
+--------------------------
+Nombre: Juan
+Apellidos: Juanez
+Dirección: La que sea
+Teléfono: 4563121788
+Notas: Notas de Juanez
+--------------------------

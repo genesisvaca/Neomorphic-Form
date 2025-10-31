@@ -12,6 +12,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /** Formulario con estilo Neomórfico pastel */
 
@@ -53,7 +55,10 @@ public class NeumorphicForm extends JFrame {
     private NeoButton btnLimpiar;
 
     // Borde por defecto para restaurar validación
-    private final javax.swing.border.Border defaultFieldBorder = new EmptyBorder(8, 12, 8, 12);
+    private final javax.swing.border.Border DEFAULTFIELDBORDER = new EmptyBorder(8, 12, 8, 12);
+
+    // Ruta nuevo archivo.txt donde guardar los datos 
+    private static final String ARCHIVO = "C:\\Users\\AlumnoAfternoon\\IdeaProjects\\Neomorphic-Form\\resources\\usuarios_registrados.txt";
 
     public NeumorphicForm() {
         setTitle("Formulario de Registro");
@@ -133,7 +138,7 @@ public class NeumorphicForm extends JFrame {
         // Colores de texto
         for (RoundedField f : new RoundedField[]{txtNombre, txtApellidos, txtDireccion, txtTelefono}) {
             f.setForeground(TEXT_DARK);
-            f.setBorder(defaultFieldBorder);
+            f.setBorder(DEFAULTFIELDBORDER);
             f.setBackground(BASE);
         }
         txtNotas.setForeground(TEXT_DARK);
@@ -155,14 +160,20 @@ public class NeumorphicForm extends JFrame {
         return field;
     }
 
+    /**
+     * Acción del botón Grabar:
+     * 1. Validar
+     * 2. Si tdo ok -> guardar en TXT
+     */
+
     private void onAceptar(ActionEvent e) {
         resetBorders();
 
-        String nombre = txtNombre.getText().trim();
+        String nombre    = txtNombre.getText().trim();
         String apellidos = txtApellidos.getText().trim();
         String direccion = txtDireccion.getText().trim();
-        String telefono = txtTelefono.getText().trim();
-        String notas = txtNotas.getText().trim();
+        String telefono  = txtTelefono.getText().trim();
+        String notas     = txtNotas.getText().trim();
 
         StringBuilder errs = new StringBuilder();
 
@@ -186,24 +197,56 @@ public class NeumorphicForm extends JFrame {
             markError(txtTelefono);
         }
 
+        // Si hay errores → mostrar y salir
         if (errs.length() > 0) {
-            JOptionPane.showMessageDialog(this, errs.toString(), "Error de validación", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                    this,
+                    errs.toString(),
+                    "Error de validación",
+                    JOptionPane.ERROR_MESSAGE
+            );
             return;
         }
 
-        JOptionPane.showMessageDialog(
-                this,
-                "Formulario registrado correctamente:\n" +
-                        "Nombre: " + nombre + "\n" +
-                        "Apellidos: " + apellidos + "\n" +
-                        "Dirección: " + direccion + "\n" +
-                        "Teléfono: " + telefono + "\n" +
-                        "Notas: " + (notas.isEmpty() ? "(Sin notas)" : notas),
-                "Confirmación",
-                JOptionPane.INFORMATION_MESSAGE
-        );
+        // Si llegamos aquí, tdo está validado
+        guardarEnFichero(nombre, apellidos, direccion, telefono, notas);
+    }
 
-        limpiar();
+    /**
+     * Guarda los datos en un archivo TXT en modo append.
+     */
+    private void guardarEnFichero(String nombre,
+                                  String apellidos,
+                                  String direccion,
+                                  String telefono,
+                                  String notas) {
+
+        try (FileWriter writer = new FileWriter(ARCHIVO, true)) {
+            writer.write("Nombre: " + nombre + "\n");
+            writer.write("Apellidos: " + apellidos + "\n");
+            writer.write("Dirección: " + direccion + "\n");
+            writer.write("Teléfono: " + telefono + "\n");
+            writer.write("Notas: " + (notas.isEmpty() ? "(Sin notas)" : notas) + "\n");
+            writer.write("--------------------------\n");
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Datos guardados correctamente en:\n" + ARCHIVO,
+                    "Éxito",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+
+            // Después de grabar, limpiar
+            limpiar();
+
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Error al guardar los datos:\n" + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
     }
 
     private void limpiar() {
@@ -221,10 +264,10 @@ public class NeumorphicForm extends JFrame {
     }
 
     private void resetBorders() {
-        txtNombre.setBorder(defaultFieldBorder);
-        txtApellidos.setBorder(defaultFieldBorder);
-        txtDireccion.setBorder(defaultFieldBorder);
-        txtTelefono.setBorder(defaultFieldBorder);
+        txtNombre.setBorder(DEFAULTFIELDBORDER);
+        txtApellidos.setBorder(DEFAULTFIELDBORDER);
+        txtDireccion.setBorder(DEFAULTFIELDBORDER);
+        txtTelefono.setBorder(DEFAULTFIELDBORDER);
     }
 
     // ---------------------- Componentes personalizados ----------------------
