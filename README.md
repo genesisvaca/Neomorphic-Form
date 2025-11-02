@@ -163,8 +163,7 @@ git clone https://github.com/genesisvaca/Neomorphic-Form.git
 
 **4.** Fill out the form and press Grabar to save a record to `usuarios_registrados.txt`.
 
----
-
+## 🌟 Author
 #### 👩‍💻 Génesis Vaca Palma
 📍 *Madrid, Spain*
 
