@@ -1,11 +1,11 @@
-# 🎨 Neomorphic Form – User Registration GUI (Java Swing)
+# 🎨 Neomorphic User Form – Java Swing  
 
 <p align="center">
   <img src="https://img.shields.io/badge/Built%20With-Java%20Swing-52796F?style=for-the-badge" alt="Java Swing Badge">
   <img src="https://img.shields.io/badge/Design-Neumorphism%20%2F%20Pastel%20UI-FFC8DD?style=for-the-badge" alt="Design Badge">
   <img src="https://img.shields.io/badge/Language-Java-9B5DE5?style=for-the-badge&logo=java&logoColor=white" alt="Java Badge">
   <img src="https://img.shields.io/badge/Type-Desktop%20Application-64C9CF?style=for-the-badge" alt="Type Badge">
-  <img src="https://img.shields.io/badge/Status-In Progress-84A59D?style=for-the-badge" alt="Status Badge">
+  <img src="https://img.shields.io/badge/Status-In%20Progress-84A59D?style=for-the-badge" alt="Status Badge">
 </p>
 
 A **pastel neomorphic registration form** built entirely with pure Java Swing, featuring smooth 3D effects, soft shadows, and full data validation — now enhanced with **TXT file saving** for persistent user storage.
