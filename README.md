@@ -1,17 +1,23 @@
-### 🎨 Neomorphic Form – User Registration GUI (Java Swing)
+# 🎨 Neomorphic Form – User Registration GUI (Java Swing)
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Built%20With-Java%20Swing-52796F?style=for-the-badge" alt="Java Swing Badge">
+  <img src="https://img.shields.io/badge/Design-Neumorphism%20%2F%20Pastel%20UI-FFC8DD?style=for-the-badge" alt="Design Badge">
+  <img src="https://img.shields.io/badge/Language-Java-9B5DE5?style=for-the-badge&logo=java&logoColor=white" alt="Java Badge">
+  <img src="https://img.shields.io/badge/Type-Desktop%20Application-64C9CF?style=for-the-badge" alt="Type Badge">
+  <img src="https://img.shields.io/badge/Status-In Progress-84A59D?style=for-the-badge" alt="Status Badge">
+</p>
 
 A **pastel neomorphic registration form** built entirely with pure Java Swing, featuring smooth 3D effects, soft shadows, and full data validation — now enhanced with **TXT file saving** for persistent user storage.
 
 > *✨ A modern desktop interface combining UI aesthetics and functional backend logic.*
 
-##
-
-### 🌸 Overview
+## 🌸 Overview
 
 This project implements a **user creation form** (`NeumorphicForm`) developed as part of the *Interfaces Development* module.
 It demonstrates GUI design, input validation, accessibility, and file handling in a standalone Java application.
 
-### 🧩 Key Features
+## 🧩 Key Features
 
 - #### 💾 Save to TXT file (`usuarios_registrados.txt`)
 Appends each user entry to a readable text file for persistent storage.
@@ -41,8 +47,7 @@ Inspired by *Soft UI* principles with subtle shadows and a calm peach-pink palet
 
   - Centered adaptive layout
 
-##
-### 🧠 System Requirements
+## 🧠 System Requirements
 
 | Requirement | Description                             |
 | ----------- | --------------------------------------- |
@@ -52,9 +57,7 @@ Inspired by *Soft UI* principles with subtle shadows and a calm peach-pink palet
 | Screen      | Minimum resolution: 1366×768            |
 | Execution   | `java -jar NeumorphicForm.jar`          |
 
-##
-
-### 🧰 Tech Stack
+## 🧰 Tech Stack
 
 | **Category**     | **Tools**                               |
 | ---------------- | --------------------------------------- |
@@ -64,9 +67,7 @@ Inspired by *Soft UI* principles with subtle shadows and a calm peach-pink palet
 | **Output File**  | Plain text (`usuarios_registrados.txt`) |
 | **IDE Used**     | IntelliJ IDEA                           |
 
-##
-
-### 📋 Data Validation Rules
+## 📋 Data Validation Rules
 
 | Field   | Requirement                          | On Error                   |
 | ------- | ------------------------------------ | -------------------------- |
@@ -77,7 +78,7 @@ Inspired by *Soft UI* principles with subtle shadows and a calm peach-pink palet
 | Notes   | Optional                             | No validation              |
 
 
-✅ If all fields are valid, data is saved in a readable structured format in a `.txt` file:
+### ✅ If all fields are valid, data is saved in a readable structured format in a `.txt` file:
 ```
 Nombre: Ana
 Apellidos: Pérez García
@@ -87,7 +88,7 @@ Notas: (Sin notas)
 --------------------------
 ```
 
-💾 File Generation
+### 💾 File Generation
 
 Once validation passes, a record is appended to:
 ```
@@ -96,17 +97,15 @@ Once validation passes, a record is appended to:
 
 If the file doesn’t exist, it is automatically created.
 If an error occurs (permissions, missing path), a popup error message appears.
-##
-### 🧼 Buttons & Functionality
+
+## 🧼 Buttons & Functionality
 
 | Button              | Description                                                       |
 | :------------------ | :---------------------------------------------------------------- |
 | **Grabar (Save)**   | Validates data and saves the record to `usuarios_registrados.txt` |
 | **Limpiar (Clear)** | Clears all input fields and resets focus to “Nombre”              |
 
-##
-
-### 🎨 Design Palette (Peach-Pink Theme)
+## 🎨 Design Palette (Peach-Pink Theme)
 
 | Element        | Color     | Description        |
 | :------------- | :-------- | :----------------- |
@@ -116,9 +115,8 @@ If an error occurs (permissions, missing path), a popup error message appears.
 | `SHADOW_DARK`  | `#E0B3B3` | Lower shadow       |
 | `SHADOW_LIGHT` | `#FFFFFF` | Upper light effect |
 
-##
+## 🖼️ Preview Gallery
 
-### 🖼️ Preview Gallery
 | Stage             | Image                                          |
 | :---------------- | :--------------------------------------------- |
 | Initial Form      | ![01-home](docs/01-home.png)                   |
@@ -128,9 +126,7 @@ If an error occurs (permissions, missing path), a popup error message appears.
 | Saved TXT Output  | ![06-cleared-peach](docs/06-cleared-peach.png) |
 | Registered users  | ![07-saved-data](docs/07-saved-data.png)       |
 
-##
-
-### 🧭 Repository Structure
+## 🧭 Repository Structure
 ```
 Neomorphic-Form/
 │
@@ -154,10 +150,7 @@ Neomorphic-Form/
 │
 └── README.md
 ```
-
-##
-
-### 🚀 How to Run
+## 🚀 How to Run
 
 **1.** Clone the repository:
 ```
@@ -170,9 +163,7 @@ git clone https://github.com/genesisvaca/Neomorphic-Form.git
 
 **4.** Fill out the form and press Grabar to save a record to `usuarios_registrados.txt`.
 
-##
-
-### 🌟 Author
+---
 
 #### 👩‍💻 Génesis Vaca Palma
 📍 *Madrid, Spain*
