@@ -16,3 +16,10 @@ Dirección: La que sea
 Teléfono: 4563121788
 Notas: Notas de Juanez
 --------------------------
+Nombre: Laura
+Apellidos: Fernández López
+Teléfono: 612345678
+DNI: 12345678A
+Dirección: Calle Mayor, 45, Madrid
+Email: laura.fernandez@email.com
+--------------------------

@@ -7,13 +7,18 @@ package edu.thepower.desarrollointerfaces.formulario;
  *  - Validación con mensajes de error y marcado visual
  */
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 /** Formulario con estilo Neomórfico pastel */
 
@@ -27,12 +32,12 @@ public class NeumorphicForm extends JFrame {
      *     private static final Color SHADOW_LIGHT = new Color(0xFFFFFF);// luz
      */
     /**
-     *     // Colores base (rosa pastel)
-     *  private static final Color BASE = new Color(0xFAE8E8);        // Fondo principal (rosa empolvado claro)
-     *     private static final Color ACCENT = new Color(0xF3C6C6);      // Acento suave para botones o sombras interiores
-     *     private static final Color TEXT_DARK = new Color(0x5A4A4A);   // Texto gris rosado oscuro (contraste)
-     *     private static final Color SHADOW_DARK = new Color(0xE2BABA); // Sombra inferior (tono rosado más profundo)
-     *     private static final Color SHADOW_LIGHT = new Color(0xFFFFFF);// Luz superior (blanco suave)
+     * // Colores base (rosa pastel)
+     * private static final Color BASE = new Color(0xFAE8E8);        // Fondo principal (rosa empolvado claro)
+     * private static final Color ACCENT = new Color(0xF3C6C6);      // Acento suave para botones o sombras interiores
+     * private static final Color TEXT_DARK = new Color(0x5A4A4A);   // Texto gris rosado oscuro (contraste)
+     * private static final Color SHADOW_DARK = new Color(0xE2BABA); // Sombra inferior (tono rosado más profundo)
+     * private static final Color SHADOW_LIGHT = new Color(0xFFFFFF);// Luz superior (blanco suave)
      */
 
 
@@ -59,6 +64,9 @@ public class NeumorphicForm extends JFrame {
 
     // Ruta nuevo archivo.txt donde guardar los datos 
     private static final String ARCHIVO = "C:\\Users\\AlumnoAfternoon\\IdeaProjects\\Neomorphic-Form\\resources\\usuarios_registrados.txt";
+    private static final String ARCHIVOXML = "C:\\Users\\AlumnoAfternoon\\IdeaProjects\\Neomorphic-Form\\resources\\usuarios_desde_txt.xml";
+    private static final File FILETXT = new File(ARCHIVO);
+
 
     public NeumorphicForm() {
         setTitle("Formulario de Registro");
@@ -69,7 +77,8 @@ public class NeumorphicForm extends JFrame {
         // Look & Feel y fuente
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         UIManager.put("Label.font", new Font("Segoe UI", Font.PLAIN, 14));
 
         // Panel raíz con fondo pastel
@@ -169,11 +178,11 @@ public class NeumorphicForm extends JFrame {
     private void onAceptar(ActionEvent e) {
         resetBorders();
 
-        String nombre    = txtNombre.getText().trim();
+        String nombre = txtNombre.getText().trim();
         String apellidos = txtApellidos.getText().trim();
         String direccion = txtDireccion.getText().trim();
-        String telefono  = txtTelefono.getText().trim();
-        String notas     = txtNotas.getText().trim();
+        String telefono = txtTelefono.getText().trim();
+        String notas = txtNotas.getText().trim();
 
         StringBuilder errs = new StringBuilder();
 
@@ -360,7 +369,9 @@ public class NeumorphicForm extends JFrame {
         }
     }
 
-    /**  Campo multilínea para “Notas” con mismo estilo redondeado */
+    /**
+     * Campo multilínea para “Notas” con mismo estilo redondeado
+     */
     static class RoundedArea extends JTextArea {
         private final int arc;
         private final Color base;
