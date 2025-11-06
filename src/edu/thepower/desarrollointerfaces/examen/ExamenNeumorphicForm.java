@@ -19,7 +19,7 @@ import java.io.*;
 
 public class ExamenNeumorphicForm extends JFrame {
 
-   /* // --------- Colores (neumórfico pastel) ----------
+    // --------- Colores (neumórfico pastel) ----------
     private static final Color BASE = new Color(0xFFE9E3);
     private static final Color ACCENT = new Color(0xF9BEBE);
     private static final Color TEXT_DARK = new Color(0x5A4A4A);
@@ -33,14 +33,14 @@ public class ExamenNeumorphicForm extends JFrame {
      *     private static final Color TEXT_DARK = new Color(0x364355);   // texto
      *     private static final Color SHADOW_DARK = new Color(0xB4C3D0); // sombra
      *     private static final Color SHADOW_LIGHT = new Color(0xFFFFFF);// luz
-*/
+
      // Colores base (rosa pastel)
      private static final Color BASE = new Color(0xFAE8E8);        // Fondo principal (rosa empolvado claro)
      private static final Color ACCENT = new Color(0xF3C6C6);      // Acento suave para botones o sombras interiores
      private static final Color TEXT_DARK = new Color(0x5A4A4A);   // Texto gris rosado oscuro (contraste)
      private static final Color SHADOW_DARK = new Color(0xE2BABA); // Sombra inferior (tono rosado más profundo)
      private static final Color SHADOW_LIGHT = new Color(0xFFFFFF);// Luz superior (blanco suave)
-
+    */
 
     // --------- Campos ----------
     private RoundedField txtNombre;
