@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<usuarios>
+  <usuario>
+    <nombre>Genesis</nombre>
+    <apellidos>Vaca</apellidos>
+    <telefono>1256147536</telefono>
+    <dni/>
+    <direccion>La que sea</direccion>
+    <email/>
+  </usuario>
+  <usuario>
+    <nombre>Pablo</nombre>
+    <apellidos>Igea</apellidos>
+    <telefono>123654789</telefono>
+    <dni/>
+    <direccion>La que sea</direccion>
+    <email/>
+  </usuario>
+  <usuario>
+    <nombre>Juan</nombre>
+    <apellidos>Juanez</apellidos>
+    <telefono>4563121788</telefono>
+    <dni/>
+    <direccion>La que sea</direccion>
+    <email/>
+  </usuario>
+  <usuario>
+    <nombre>Laura</nombre>
+    <apellidos>Fernández López</apellidos>
+    <telefono/>
+    <dni>12345678A</dni>
+    <direccion>Calle Mayor, 45, Madrid</direccion>
+    <email>laura.fernandez@email.com</email>
+  </usuario>
+  <usuario>
+    <nombre>Pedro</nombre>
+    <apellidos>Gómez</apellidos>
+    <telefono>645214521</telefono>
+    <dni>12345679A</dni>
+    <direccion>Calle Aranjuez</direccion>
+    <email>email@email.com</email>
+  </usuario>
+</usuarios>
