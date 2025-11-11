@@ -18,8 +18,15 @@ Notas: Notas de Juanez
 --------------------------
 Nombre: Laura
 Apellidos: Fernández López
-Teléfono: 612345678
+Teléfono:
 DNI: 12345678A
 Dirección: Calle Mayor, 45, Madrid
 Email: laura.fernandez@email.com
+--------------------------
+Nombre: Pedro
+Apellidos: Gómez
+Teléfono: 645214521
+DNI: 12345679A
+Dirección: Calle Aranjuez
+Email: email@email.com
 --------------------------

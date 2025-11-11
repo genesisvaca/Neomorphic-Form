@@ -10,9 +10,19 @@ package edu.thepower.desarrollointerfaces.examen;
  * - (Opcional) Botón "Ver usuarios" para mostrar el contenido del TXT
  */
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.*;
@@ -54,9 +64,13 @@ public class ExamenNeumorphicForm extends JFrame {
     private NeoButton btnGuardar;
     private NeoButton btnLimpiar;
     private NeoButton btnVerUsuarios;
+    private NeoButton btnTxtToXml; // NUEVO
 
     // --------- Archivos ----------
-    private static final String ARCHIVO = "C:\\Users\\AlumnoAfternoon\\IdeaProjects\\Neomorphic-Form\\resources\\usuarios_registrados.txt";
+    private static final String ARCHIVO =
+            "C:\\Users\\AlumnoAfternoon\\IdeaProjects\\Neomorphic-Form\\resources\\usuarios_registrados.txt";
+    private static final String ARCHIVO_XML =
+            "C:\\Users\\AlumnoAfternoon\\IdeaProjects\\Neomorphic-Form\\resources\\usuarios_desde_txt.xml";
     private static final File FILETXT = new File(ARCHIVO);
 
     // --------- Bordes ----------
@@ -65,7 +79,7 @@ public class ExamenNeumorphicForm extends JFrame {
     public ExamenNeumorphicForm() {
         setTitle("Formulario de Registro");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(620, 560);
+        setSize(760, 580);
         setLocationRelativeTo(null);
 
         try { UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); } catch (Exception ignored) {}
@@ -102,9 +116,11 @@ public class ExamenNeumorphicForm extends JFrame {
 
         NeoPanel actions = new NeoPanel(ACCENT, 18);
         actions.setLayout(new FlowLayout(FlowLayout.RIGHT, 12, 12));
-        btnVerUsuarios = new NeoButton("Ver usuarios"); // opcional
-        btnLimpiar = new NeoButton("Limpiar");
-        btnGuardar = new NeoButton("Guardar");
+        btnTxtToXml    = new NeoButton("TXT → XML");  // NUEVO
+        btnVerUsuarios = new NeoButton("Ver usuarios");
+        btnLimpiar     = new NeoButton("Limpiar");
+        btnGuardar     = new NeoButton("Guardar");
+        actions.add(btnTxtToXml);
         actions.add(btnVerUsuarios);
         actions.add(btnLimpiar);
         actions.add(btnGuardar);
@@ -116,6 +132,7 @@ public class ExamenNeumorphicForm extends JFrame {
         btnGuardar.addActionListener(this::onGuardar);
         btnLimpiar.addActionListener(e -> limpiar());
         btnVerUsuarios.addActionListener(e -> mostrarUsuarios());
+        btnTxtToXml.addActionListener(e -> convertirTxtAXml()); // NUEVO
 
         // Estética campos
         for (RoundedField f : new RoundedField[]{txtNombre, txtApellidos, txtTelefono, txtDni, txtDireccion, txtEmail}) {
@@ -137,7 +154,7 @@ public class ExamenNeumorphicForm extends JFrame {
         return field;
     }
 
-    // --------- Lógica Guardar ----------
+    // --------- Guardar en TXT ----------
     private void onGuardar(ActionEvent e) {
         resetBorders();
 
@@ -164,13 +181,13 @@ public class ExamenNeumorphicForm extends JFrame {
             markError(txtTelefono);
         }
 
-        // DNI español 8 números + 1 letra (formato)
+        // DNI español 8 números + 1 letra
         if (!dni.isEmpty() && !dni.matches("^\\d{8}[A-Za-z]$")) {
             errs.append("• DNI debe tener 8 números y 1 letra (ej.: 12345678A).\n");
             markError(txtDni);
         }
 
-        // Email con @ y un punto con al menos 2 letras al final
+        // Email básico
         if (!email.isEmpty() && !email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]{2,}$")) {
             errs.append("• Email no válido (debe contener '@' y un dominio válido).\n");
             markError(txtEmail);
@@ -181,7 +198,7 @@ public class ExamenNeumorphicForm extends JFrame {
             return;
         }
 
-        // Guardado en usuarios.txt (formato legible del enunciado)
+        // Guardado en TXT
         try (FileWriter writer = new FileWriter(FILETXT, true)) {
             writer.write("Nombre: " + nombre + "\n");
             writer.write("Apellidos: " + apellidos + "\n");
@@ -195,17 +212,14 @@ public class ExamenNeumorphicForm extends JFrame {
             return;
         }
 
-        // Contador de usuarios guardados (contamos líneas 'Nombre:' o separadores)
         int total = contarUsuarios(FILETXT);
-
         JOptionPane.showMessageDialog(
                 this,
-                "Usuario guardado correctamente en '" + ARCHIVO + "'.\n" +
+                "Usuario guardado correctamente en:\n" + ARCHIVO + "\n" +
                         "Usuarios almacenados: " + total,
                 "Confirmación",
                 JOptionPane.INFORMATION_MESSAGE
         );
-
         limpiar();
     }
 
@@ -214,16 +228,14 @@ public class ExamenNeumorphicForm extends JFrame {
         int count = 0;
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
-            // Contar por separador o por 'Nombre:'
             while ((line = br.readLine()) != null) {
-                if (line.startsWith("Nombre:") || line.startsWith("----------------")) count++;
+                if (line.startsWith("Nombre:")) count++;
             }
         } catch (IOException ignored) {}
-        // si contamos separadores y 'Nombre:' a la vez pueden duplicarse; nos quedamos con el mayor
-        return count / 2 == 0 ? count : Math.max(count / 2, count);
+        return count;
     }
 
-    // --------- Opcional: Ver usuarios en JTextArea ----------
+    // --------- Ver usuarios (en JTextArea) ----------
     private void mostrarUsuarios() {
         if (!FILETXT.exists()) {
             JOptionPane.showMessageDialog(this, "Aún no hay usuarios guardados.", "Información", JOptionPane.INFORMATION_MESSAGE);
@@ -244,6 +256,91 @@ public class ExamenNeumorphicForm extends JFrame {
         JScrollPane sp = new JScrollPane(area);
 
         JOptionPane.showMessageDialog(this, sp, "Usuarios guardados (" + contarUsuarios(FILETXT) + ")", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    // ======== NUEVO: Conversión TXT → XML ========
+    private void convertirTxtAXml() {
+        if (!FILETXT.exists()) {
+            JOptionPane.showMessageDialog(this,
+                    "No se encontró el TXT:\n" + FILETXT.getAbsolutePath(),
+                    "Aviso",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            // 1) Construir DOM
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.newDocument();
+            Element root = doc.createElement("usuarios");
+            doc.appendChild(root);
+
+            // 2) Parsear TXT agrupando por separador
+            String nombre = "", apellidos = "", telefono = "", dni = "", direccion = "", email = "";
+            try (BufferedReader br = new BufferedReader(new FileReader(FILETXT))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    line = line.trim();
+
+                    if      (line.startsWith("Nombre:"))    nombre    = line.substring("Nombre:".length()).trim();
+                    else if (line.startsWith("Apellidos:")) apellidos = line.substring("Apellidos:".length()).trim();
+                    else if (line.startsWith("Teléfono:"))  telefono  = line.substring("Teléfono:".length()).trim();
+                    else if (line.startsWith("DNI:"))       dni       = line.substring("DNI:".length()).trim();
+                    else if (line.startsWith("Dirección:")) direccion = line.substring("Dirección:".length()).trim();
+                    else if (line.startsWith("Email:"))     email     = line.substring("Email:".length()).trim();
+                    else if (line.startsWith("---")) {
+                        // Fin de registro
+                        appendUsuarioXml(doc, root, nombre, apellidos, telefono, dni, direccion, email);
+                        nombre = apellidos = telefono = dni = direccion = email = "";
+                    }
+                }
+            }
+
+            // Si el archivo no termina con separador, guarda el último bloque
+            if (!nombre.isEmpty() || !apellidos.isEmpty() || !telefono.isEmpty() ||
+                    !dni.isEmpty() || !direccion.isEmpty() || !email.isEmpty()) {
+                appendUsuarioXml(doc, root, nombre, apellidos, telefono, dni, direccion, email);
+            }
+
+            // 3) Escribir XML con indentación
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer t = tf.newTransformer();
+            t.setOutputProperty(OutputKeys.INDENT, "yes");
+            t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            t.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            t.transform(new DOMSource(doc), new StreamResult(new File(ARCHIVO_XML)));
+
+            JOptionPane.showMessageDialog(this,
+                    "Conversión completada.\nXML generado en:\n" + ARCHIVO_XML,
+                    "TXT → XML",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al convertir a XML:\n" + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private static void appendUsuarioXml(Document doc, Element root,
+                                         String nombre, String apellidos, String telefono,
+                                         String dni, String direccion, String email) {
+        Element usuario = doc.createElement("usuario");
+        createChild(doc, usuario, "nombre", nombre);
+        createChild(doc, usuario, "apellidos", apellidos);
+        createChild(doc, usuario, "telefono", telefono);
+        createChild(doc, usuario, "dni", dni);
+        createChild(doc, usuario, "direccion", direccion);
+        createChild(doc, usuario, "email", email);
+        root.appendChild(usuario);
+    }
+
+    private static void createChild(Document doc, Element parent, String tag, String value) {
+        Element e = doc.createElement(tag);
+        e.setTextContent(value == null ? "" : value);
+        parent.appendChild(e);
     }
 
     // --------- Utilidades UI ----------
@@ -317,14 +414,14 @@ public class ExamenNeumorphicForm extends JFrame {
 
     static class RoundedField extends JTextField {
         private final int arc; private final Color base;
-        RoundedField(int arc, Color base) { this.arc = arc; this.base = base; setOpaque(false); setBorder(new EmptyBorder(8, 12, 8, 12)); }
+        RoundedField(int arc, Color base) { this.arc = arc; this.base = base; setOpaque(false); setBorder(new EmptyBorder(8,12,8,12)); }
         @Override protected void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             int w = getWidth(), h = getHeight();
-            g2.setColor(SHADOW_LIGHT); g2.fillRoundRect(1, 1, w - 2, h - 2, arc, arc);
-            g2.setColor(SHADOW_DARK);  g2.fillRoundRect(2, 2, w - 4, h - 4, arc, arc);
-            g2.setColor(base);         g2.fillRoundRect(2, 2, w - 4, h - 4, arc, arc);
+            g2.setColor(SHADOW_LIGHT); g2.fillRoundRect(1,1,w-2,h-2,arc,arc);
+            g2.setColor(SHADOW_DARK);  g2.fillRoundRect(2,2,w-4,h-4,arc,arc);
+            g2.setColor(base);         g2.fillRoundRect(2,2,w-4,h-4,arc,arc);
             g2.dispose();
             super.paintComponent(g);
         }
