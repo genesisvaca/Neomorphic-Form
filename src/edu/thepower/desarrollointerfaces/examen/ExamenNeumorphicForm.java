@@ -64,7 +64,7 @@ public class ExamenNeumorphicForm extends JFrame {
     private NeoButton btnGuardar;
     private NeoButton btnLimpiar;
     private NeoButton btnVerUsuarios;
-    private NeoButton btnTxtToXml; // NUEVO
+    private NeoButton btnTxtToXml;
 
     // --------- Archivos ----------
     private static final String ARCHIVO =
@@ -258,7 +258,7 @@ public class ExamenNeumorphicForm extends JFrame {
         JOptionPane.showMessageDialog(this, sp, "Usuarios guardados (" + contarUsuarios(FILETXT) + ")", JOptionPane.PLAIN_MESSAGE);
     }
 
-    // ======== NUEVO: Conversión TXT → XML ========
+    // ======== Conversión TXT → XML ========
     private void convertirTxtAXml() {
         if (!FILETXT.exists()) {
             JOptionPane.showMessageDialog(this,
